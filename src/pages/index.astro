@@ -1,0 +1,18 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Navbar from '../components/Navbar.astro';
+import EditorPanel from '../components/EditorPanel.astro';
+import PreviewPanel from '../components/PreviewPanel.astro';
+---
+
+<BaseLayout title="Markdown a PDF">
+  <Navbar />
+  <main class="workspace">
+    <EditorPanel />
+    <PreviewPanel />
+  </main>
+</BaseLayout>
+
+<script>
+  import '../scripts/app';
+</script>

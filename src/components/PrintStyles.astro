@@ -1,0 +1,8 @@
+---
+import { buildPrintCss } from '../lib/print';
+
+// Estilos de impresión generados por la función pura testeada (RF-29 a RF-32).
+const printCss = buildPrintCss();
+---
+
+<style is:inline set:html={printCss} media="print"></style>

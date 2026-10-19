@@ -1,0 +1,23 @@
+# Dependencias
+node_modules/
+
+# Build
+dist/
+.astro/
+
+# Entorno
+.env
+.env.production
+
+AGENTS.md
+opencode.json
+README.md
+.opencode/
+.opencode/**
+specs/
+specs/**
+.agents/
+.agents/**
+docs/
+docs/**
+MEMORY.md

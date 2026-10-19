@@ -1,0 +1,15 @@
+---
+import ThemeToggle from './ThemeToggle.astro';
+---
+
+<nav class="navbar no-print" aria-label="Navegación principal">
+  <span class="navbar__brand">Markdown a PDF</span>
+  <ul class="navbar__links">
+    <li>
+      <a id="home-link" href="/" aria-current="page">Inicio</a>
+    </li>
+  </ul>
+  <div class="navbar__actions">
+    <ThemeToggle />
+  </div>
+</nav>

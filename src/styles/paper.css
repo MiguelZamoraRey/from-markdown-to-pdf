@@ -1,0 +1,210 @@
+/*
+ * La hoja (el héroe). Aspecto de documento impreso, siempre papel blanco con
+ * independencia del tema de la interfaz (RF-13).
+ * Los tokens del papel viven aquí, no en :root, para que no dependan del tema.
+ */
+.paper {
+  --paper-bg: #ffffff;
+  --paper-ink: #1c1f24;
+  --paper-muted: #5c636e;
+  --paper-rule: #d9dbe0;
+  --paper-wash: #f4f5f7;
+  --paper-link: #1f4fbf;
+  --paper-quote: #b8bcc4;
+
+  position: relative;
+  width: min(calc(100% - 3rem), 44rem);
+  min-height: calc(100% - 3rem);
+  margin: 1.5rem auto;
+  padding: clamp(1.75rem, 4vw, 3.5rem);
+  background: var(--paper-bg);
+  color: var(--paper-ink);
+  border-radius: var(--radius-sheet);
+  box-shadow:
+    0 0 0 1px rgba(0, 0, 0, 0.06),
+    0 1px 2px rgba(0, 0, 0, 0.28),
+    0 28px 56px -28px var(--color-shadow);
+  font-family: var(--font-paper);
+  font-size: 1rem;
+  line-height: 1.65;
+  overflow-wrap: break-word;
+}
+
+/* Sin documento no hay hoja: solo el aviso sobre la mesa (RF-25) */
+.paper:empty {
+  display: none;
+}
+
+.paper > :first-child {
+  margin-top: 0;
+}
+
+.paper > :last-child {
+  margin-bottom: 0;
+}
+
+.paper h1,
+.paper h2,
+.paper h3,
+.paper h4,
+.paper h5,
+.paper h6 {
+  margin: 1.6em 0 0.55em;
+  font-weight: 700;
+  line-height: 1.2;
+  text-wrap: balance;
+}
+
+/* Seis tamaños estrictamente decrecientes, todos mayores que el cuerpo (RF-14) */
+.paper h1 {
+  font-size: 2rem;
+  letter-spacing: -0.015em;
+}
+
+.paper h2 {
+  font-size: 1.6rem;
+  letter-spacing: -0.01em;
+}
+
+.paper h3 {
+  font-size: 1.35rem;
+}
+
+.paper h4 {
+  font-size: 1.2rem;
+}
+
+.paper h5 {
+  font-size: 1.1rem;
+}
+
+.paper h6 {
+  font-size: 1.05rem;
+}
+
+.paper p {
+  margin: 0 0 1em;
+  text-wrap: pretty;
+}
+
+.paper strong {
+  font-weight: 700;
+}
+
+.paper em {
+  font-style: italic;
+}
+
+.paper del,
+.paper s {
+  text-decoration: line-through;
+  color: var(--paper-muted);
+}
+
+.paper ul,
+.paper ol {
+  margin: 0 0 1em;
+  padding-left: 1.5em;
+}
+
+.paper li {
+  margin: 0.25em 0;
+}
+
+.paper li > ul,
+.paper li > ol {
+  margin-bottom: 0;
+}
+
+.paper blockquote {
+  margin: 0 0 1em;
+  padding: 0.15em 0 0.15em 1.1em;
+  border-left: 3px solid var(--paper-quote);
+  color: var(--paper-muted);
+  font-style: italic;
+}
+
+.paper blockquote > :last-child {
+  margin-bottom: 0;
+}
+
+.paper code {
+  padding: 0.12em 0.36em;
+  background: var(--paper-wash);
+  border: 1px solid var(--paper-rule);
+  border-radius: 4px;
+  font-family: var(--font-mono);
+  font-size: 0.88em;
+}
+
+.paper pre {
+  margin: 0 0 1em;
+  padding: 1em 1.1em;
+  background: var(--paper-wash);
+  border: 1px solid var(--paper-rule);
+  border-radius: 6px;
+  overflow: auto;
+  font-family: var(--font-mono);
+  font-size: 0.85em;
+  line-height: 1.55;
+  white-space: pre-wrap;
+  overflow-wrap: break-word;
+}
+
+.paper pre code {
+  padding: 0;
+  background: none;
+  border: 0;
+  font-size: inherit;
+}
+
+/* Tabla ancha reducida al ancho útil, sin perder columnas (RF-20) */
+.paper table {
+  width: 100%;
+  table-layout: fixed;
+  overflow-wrap: anywhere;
+  border-collapse: collapse;
+  margin: 0 0 1em;
+  font-size: 0.95em;
+}
+
+.paper th,
+.paper td {
+  padding: 0.45em 0.65em;
+  border: 1px solid var(--paper-rule);
+  text-align: left;
+  vertical-align: top;
+}
+
+.paper thead th {
+  background: var(--paper-wash);
+  font-weight: 700;
+}
+
+.paper a {
+  color: var(--paper-link);
+  text-decoration: underline;
+  text-underline-offset: 0.15em;
+}
+
+.paper a.link--inert {
+  color: var(--paper-link);
+  text-decoration: underline;
+  cursor: default;
+}
+
+.paper img {
+  max-width: 100%;
+  height: auto;
+}
+
+/* Indicador de imagen no disponible (RF-23) */
+.paper .image-unavailable {
+  display: inline-block;
+  padding: 0.35em 0.6em;
+  border: 1px dashed var(--paper-rule);
+  border-radius: 4px;
+  color: var(--paper-muted);
+  font-size: 0.9em;
+  font-style: italic;
+}

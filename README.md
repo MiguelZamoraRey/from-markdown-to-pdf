@@ -1,16 +1,37 @@
-# sdd-boilerplate
+# Markdown a PDF
 
-Este proyecto es un boilerplate para desarrollar con SDD (Spec-Driven Development) cualquier proyecto. Usa `/init-project` para reescribir este README y el AGENTS.md con la descripción real del proyecto.
+Aplicación web para convertir Markdown en PDF directamente en el navegador. Pegas o
+escribes Markdown en el panel izquierdo, ves la maqueta del resultado en el derecho y la
+exportas a PDF con las opciones de tipografía y color de destacado que elijas. Está
+pensada para quien necesita documentación, apuntes o informes con un PDF limpio sin
+depender de servicios online: el contenido nunca sale de tu equipo.
 
 ## Requisitos
 
-Esta template usa **opencode v2** (beta). Instálalo con:
+- Node.js 20+ y pnpm.
+- Un navegador con diálogo de impresión (para la exportación a PDF).
 
-```bash
-curl -fsSL https://opencode.ai/v2/install | bash
-```
+## Comandos
 
-v2 usa formatos propios: agentes con `permissions:` (array `action/resource/effect`), MCP bajo `mcp.servers` y comandos en `.opencode/commands/`. El cambio de agente en la TUI es **Shift+Tab**.
+- `pnpm dev` — servidor de desarrollo de Astro.
+- `pnpm test` — tests unitarios (Vitest) de la lógica pura.
+- `pnpm check` — comprobación de tipos (`astro check`).
+- `pnpm build` — build de producción de Astro.
+- `pnpm preview` — sirve el build de producción.
+
+## Privacidad
+
+La conversión y la exportación ocurren por completo en tu navegador: no hay backend ni
+peticiones de red que lleven tu documento a ningún sitio. La única excepción son las
+**imágenes remotas**: si tu Markdown referencia una imagen por dirección (`https://…`), el
+navegador la descarga desde su origen para mostrarla en la vista previa y en el PDF; el
+documento en sí nunca se envía. Las imágenes incrustadas (`data:image/*`) no provocan
+ninguna petición.
+
+## Notas
+
+- **TypeScript está fijado a la versión 6** (`^6` en `package.json`). `astro check` todavía
+  no soporta TypeScript 7, así que se mantiene en la 6 hasta que haya soporte.
 
 ## Flujo de trabajo (SDD)
 

@@ -4,14 +4,19 @@ Convenciones y flujo de trabajo para cualquier agente que trabaje en este reposi
 
 ## Qué es este proyecto
 
-Este proyecto es un boilerplate para desarrollo con SDD de cualquier proyecto, lo primero que debes hacer es redifinir este AGENTS.md y el README.md para el proyecto que vaya a comenzar el usuario.
-
-> Esta template está pensada para **opencode v2** (formatos v2: agentes con `permissions:` array, MCP bajo `mcp.servers`, comandos en `.opencode/commands/`). En la TUI, el cambio de agente es **Shift+Tab**.
+**Markdown a PDF** es una aplicación web (Astro + TypeScript estricto) que convierte
+Markdown en PDF en el propio navegador. El usuario pega o edita Markdown en un panel,
+ve la maqueta del resultado en otro y la exporta a PDF con las opciones de tipografía y
+color de destacado que elija. Está dirigida a quien necesita documentación, apuntes o
+informes con un PDF limpio sin servicios online: el contenido nunca sale del navegador.
+La especificación se divide en tres specs: **001** núcleo, **002** tipografía y
+**003** colores de destacado.
 
 ## Estructura
 
 - **Constitución**: `docs/constitution.md` (principios innegociables del proyecto).
 - **Specs**: `specs/NNN-nombre/` con `spec.md`, `plan.md` y `tasks.md`.
+- **Código**: `src/` (páginas y componentes Astro, lógica pura en `src/lib/`).
 - **Comandos SDD**: `.opencode/commands/sdd-*.md` (invoca `/sdd-*`).
 - **Skill**: `.agents/skills/sdd/`.
 - **Agentes SDD**: `.opencode/agents/` (coordinator, planner, implementer, reviewer).
@@ -66,8 +71,9 @@ Una spec pasa por `borrador` → `aprobada` → `implementada` (línea "Estado:"
 
 - **La spec manda.** No implementes lógica no descrita en la spec sin avisar.
 - **Requisitos en EARS** (`RF-x`) verificables; nada de "rápido", "intenso" o "bonito" sin criterio medible.
+- **Stack**: Astro + TypeScript estricto con pnpm. Dependencias mínimas; prioriza lo nativo del navegador (p. ej. `window.print()` para el PDF) frente a librerías.
 - **TypeScript estricto.** No uses `any` salvo justificación.
-- **Tests** con el comando de test del proyecto; uno por RF cuando aplique.
+- **Tests**: unitarios (Vitest) de la lógica pura, junto a ella en `src/lib/**/*.test.ts`; ejecútalos con `pnpm test`. Un test por RF cuando aplique.
 - **No añadas comentarios** innecesarios; el código debe explicarse por sí mismo.
 - **Documentación**: cualquier cambio relevante de arquitectura se refleja en `README.md` y `AGENTS.md`.
 - **Commits**: los realiza siempre el mantenedor. Los agentes **nunca** commitean ni hacen push.
@@ -75,13 +81,14 @@ Una spec pasa por `borrador` → `aprobada` → `implementada` (línea "Estado:"
 ## Seguridad
 
 - No commitees secretos ni claves. Usa `.env.example` en lugar de `.env`.
-- Valida toda entrada de usuario en backend antes de procesarla.
-- Aplica principios OWASP en las specs (validación, autorización, datos sensibles).
+- La app es solo-cliente: el Markdown y los PDFs **nunca** salen del navegador. No añadas backend ni envíes contenido a terceros.
+- Sanea el HTML derivado del Markdown antes de renderizarlo (nada de ejecutar HTML/JS pegado por el usuario).
+- Aplica principios OWASP en las specs (validación de entrada, datos sensibles, dependencias mínimas).
 
 ## Antes de terminar
 
-- Ejecuta `pnpm test` y `pnpm check` en el/los proyecto(s) afectados.
-- Si tocas el frontend, confirma que no hay errores de build (`pnpm build`).
+- Ejecuta `pnpm test` (tests unitarios) y `pnpm check` (comprobación de tipos).
+- Confirma que no hay errores de build (`pnpm build`).
 
 ## Memoria
 

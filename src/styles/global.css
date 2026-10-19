@@ -1,0 +1,287 @@
+/*
+ * Interfaz (la mesa). El héroe es la hoja: ver paper.css.
+ * Tokens de tema preparados para claro/oscuro; oscuro por defecto (RF-3).
+ * El color del papel NO depende de estos tokens (RF-13).
+ */
+:root {
+  color-scheme: dark;
+
+  --color-desk: #0f131b; /* Tinta: fondo de la mesa */
+  --color-surface: #171c26; /* Mesa: navbar, paneles y campos */
+  --color-surface-raised: #1e2531; /* Mesa elevada: hover de controles */
+  --color-text: #e8eaf0; /* Papel: texto de la interfaz */
+  --color-text-muted: #99a3b3; /* Papel agrisado: texto secundario */
+  --color-border: #2b323f; /* Regla: filetes y bordes */
+  --color-accent: #8fa6f2; /* Azul de corrección: acento */
+  --color-accent-strong: #a6b7f6; /* Acento en hover */
+  --color-accent-contrast: #0f131b; /* Texto sobre relleno de acento */
+  --color-focus: #e8c15a; /* Subrayador: anillo de foco */
+  --color-shadow: rgba(0, 0, 0, 0.55);
+
+  --font-ui: system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, Consolas, 'Liberation Mono', monospace;
+  /* Familia del papel: token sobrescribible. La spec 002 lo usará como opción por defecto. */
+  --font-paper: Georgia, 'Iowan Old Style', 'Palatino Linotype', 'Book Antiqua', Palatino,
+    'Times New Roman', serif;
+
+  --space: 1rem;
+  --radius-sheet: 3px; /* La hoja es nítida, como el papel real */
+  --radius-control: 9px; /* El software es blando: contraste deliberado con el papel */
+  --nav-height: 3.25rem;
+}
+
+[data-theme='light'] {
+  color-scheme: light;
+
+  --color-desk: #dfe2e8;
+  --color-surface: #f4f5f8;
+  --color-surface-raised: #ffffff;
+  --color-text: #1a1e26;
+  --color-text-muted: #5a6270;
+  --color-border: #c3c8d2;
+  --color-accent: #3a4fa8;
+  --color-accent-strong: #2f3f8a;
+  --color-accent-contrast: #ffffff;
+  /* Foco ≥ 4,5:1 sobre la mesa (#dfe2e8) y la superficie (#f4f5f8) (RNF-4) */
+  --color-focus: #8a4b00;
+  --color-shadow: rgba(20, 24, 33, 0.18);
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: var(--color-desk);
+  color: var(--color-text);
+  font-family: var(--font-ui);
+  font-size: 16px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-focus);
+  outline-offset: 2px;
+}
+
+/* Barra de navegación: discreta, un filete la separa de la mesa (RF-1, RF-4) */
+.navbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space);
+  height: var(--nav-height);
+  padding: 0 clamp(0.75rem, 2vw, 1.5rem);
+  background: var(--color-surface);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.navbar__brand {
+  font-size: 0.95rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+
+.navbar__links {
+  display: flex;
+  gap: 1rem;
+  margin: 0;
+  margin-right: auto;
+  padding: 0;
+  list-style: none;
+}
+
+.navbar a {
+  display: inline-block;
+  padding: 0.25rem 0.1rem;
+  color: var(--color-text-muted);
+  text-decoration: none;
+  border-radius: 4px;
+}
+
+.navbar a:hover {
+  color: var(--color-text);
+}
+
+.navbar a[aria-current='page'] {
+  color: var(--color-accent);
+  font-weight: 600;
+  text-decoration: underline;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 0.35em;
+}
+
+.navbar__actions {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+/* Control de tema: a la derecha de la navbar (RF-4) */
+.theme-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.35rem 0.7rem;
+  color: var(--color-text);
+  background: var(--color-surface-raised);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-control);
+  font: inherit;
+  font-size: 0.85rem;
+  font-weight: 600;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.theme-toggle:hover {
+  color: var(--color-accent);
+  border-color: var(--color-accent);
+}
+
+.theme-toggle__icon {
+  display: inline-flex;
+}
+
+.theme-toggle__icon--sun {
+  display: none;
+}
+
+[data-theme='light'] .theme-toggle__icon--moon {
+  display: none;
+}
+
+[data-theme='light'] .theme-toggle__icon--sun {
+  display: inline-flex;
+}
+
+/* Mesa de trabajo: dos paneles ≥1024px, apilados por debajo (RF-8) */
+.workspace {
+  flex: 1;
+  min-height: 0;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: minmax(0, 1fr);
+  gap: var(--space);
+  padding: var(--space);
+}
+
+.editor,
+.preview-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  min-height: 0;
+}
+
+/* Etiquetas de la interfaz: minúscula de frase, sin caja alta ni tracking */
+.editor__label,
+.preview-panel__title {
+  margin: 0;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--color-text);
+}
+
+.editor__input {
+  flex: 1;
+  min-height: 0;
+  width: 100%;
+  overflow: auto;
+  resize: none;
+  padding: 0.9rem 1rem;
+  color: var(--color-text);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-control);
+  font-family: var(--font-mono);
+  font-size: 0.9rem;
+  line-height: 1.6;
+  scrollbar-color: var(--color-border) transparent;
+}
+
+.editor__input::placeholder {
+  color: var(--color-text-muted);
+  opacity: 0.8;
+}
+
+.preview-panel__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space);
+  min-height: 2.25rem;
+}
+
+/* Única acción rellena de la interfaz: la exportación (RF-27) */
+.preview-panel__export {
+  padding: 0.5rem 1rem;
+  color: var(--color-accent-contrast);
+  background: var(--color-accent);
+  border: 1px solid transparent;
+  border-radius: var(--radius-control);
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.preview-panel__export:hover:not(:disabled) {
+  background: var(--color-accent-strong);
+}
+
+.preview-panel__export:disabled {
+  color: var(--color-text-muted);
+  background: var(--color-surface-raised);
+  border-color: var(--color-border);
+  cursor: not-allowed;
+}
+
+/* La mesa bajo la hoja: el margen de escritorio rodea el papel */
+.preview-panel__body {
+  position: relative;
+  flex: 1;
+  min-height: 0;
+  overflow: auto;
+  scrollbar-color: var(--color-border) transparent;
+}
+
+.preview-panel__empty {
+  margin: 0;
+  padding: 4rem 1.5rem;
+  color: var(--color-text-muted);
+  text-align: center;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  body,
+  .navbar,
+  .navbar a,
+  .theme-toggle,
+  .editor__input,
+  .preview-panel__export {
+    transition:
+      background-color 120ms ease,
+      color 120ms ease,
+      border-color 120ms ease;
+  }
+}
+
+@media (max-width: 1023px) {
+  .workspace {
+    grid-template-columns: 1fr;
+    grid-template-rows: none;
+  }
+
+  .editor,
+  .preview-panel {
+    min-height: 60vh;
+  }
+}

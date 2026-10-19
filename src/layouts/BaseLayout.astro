@@ -1,0 +1,41 @@
+---
+import '../styles/global.css';
+import '../styles/paper.css';
+import PrintStyles from '../components/PrintStyles.astro';
+
+interface Props {
+  title?: string;
+}
+
+const { title = 'Markdown a PDF' } = Astro.props;
+---
+
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      name="description"
+      content="Convierte Markdown en PDF en tu propio navegador, sin enviar el contenido a ningún servidor."
+    />
+    <title>{title}</title>
+    <script is:inline>
+      // Tema sin parpadeo (RF-3, RF-7): script bloqueante antes del primer pintado.
+      // Autónomo (no puede importar theme.ts): replica resolveTheme.
+      (() => {
+        let stored = null;
+        try {
+          stored = window.localStorage.getItem('markdown-a-pdf:theme');
+        } catch {
+          stored = null;
+        }
+        document.documentElement.dataset.theme = stored === 'light' ? 'light' : 'dark';
+      })();
+    </script>
+    <PrintStyles />
+  </head>
+  <body>
+    <slot />
+  </body>
+</html>
